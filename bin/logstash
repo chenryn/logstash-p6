@@ -1,0 +1,33 @@
+#!/usr/bin/env perl6-m
+use v6;
+use lib 'lib';
+use LogStash::Pipeline;
+
+subset confFile of Str where *.IO.f;
+subset confDir of Str where *.IO.d;
+
+#|{Execute config from a string}
+multi sub MAIN(Str :$e, Int :w(:$filterworker) = 1) {
+    my $pipeline = LogStash::Pipeline.new(conf => $e, filterworker => $filterworker);
+    $pipeline.run;
+}
+
+#|{Read config from a file,
+the default file is `conf/logstash.conf`.
+}
+multi sub MAIN(confFile :f(:$config) = 'conf/logstash.conf', Int :w(:$filterworker) = 1) {
+    my $text = $config.IO.slurp;
+    my $pipeline = LogStash::Pipeline.new(conf => $text, filterworker => $filterworker);
+    $pipeline.run;
+}
+
+#|{Read *.conf in the special directory,
+the default directory is `conf/`.
+}
+multi sub MAIN(confDir :f(:$config) = 'conf', Int :w(:$filterworker) = 1) {
+    my $text = $config.IO.dir.grep:{.extension eq 'conf'}.map(*.slurp).join("\n");
+    my $pipeline = LogStash::Pipeline.new(conf => $text, filterworker => $filterworker);
+    $pipeline.run;
+}
+
+# vim:filetype=perl6
