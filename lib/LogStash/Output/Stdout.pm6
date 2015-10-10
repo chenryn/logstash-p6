@@ -2,10 +2,14 @@
 use v6;
 use LogStash::Output::Base;
 class LogStash::Output::Stdout does LogStash::Output::Base {
-    method register () { }
+    method register {
+        $.codec.on_event = sub ($event) {
+            say $event;
+        };
+    }
     method receive ( $event ) {
         return unless $.is_output($event);
-        say $event;
+        $.codec.encode($event);
     }
 }
 # set filetype=perl6

@@ -1,8 +1,9 @@
 #!/usr/bin/env perl6-m
 use v6;
+use LogStash::Codec::Line;
 role LogStash::Output::Base {
     has Str $.type;
-    has $.codec is rw = 'plain';
+    has $.codec is rw = LogStash::Codec::Line.new;
     has @.tags;
     method register () { ... }
     method receive ( $event ) { ... }

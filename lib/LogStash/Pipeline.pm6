@@ -19,6 +19,9 @@ method load_plugin (Str $type, Pair $plugin) {
     my %options = $plugin.value;
     my $className = "LogStash::" ~ tc($type) ~ "::" ~ tc($name);
     return %.plugins{$className} if %.plugins{$className}:exists;
+    if %options{'codec'}:exists {
+        %options{'codec'} = load_plugin('codec', %options{'codec'});
+    }
     require ::($className);
     my $obj = ::($className).new(%options);
     $obj.register();
