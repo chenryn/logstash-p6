@@ -6,7 +6,7 @@ use JSON::Fast;
 class LogStash::Codec::Json does LogStash::Codec::Base {
     method register () { }
     method encode ( LogStash::Event $event ) {
-        &.on_event.(to-json($event));
+        &.on_event.($event.to-json());
     }
     method decode ( $data ) {
         my $json = from-json($data);

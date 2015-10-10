@@ -21,5 +21,7 @@ push($e2, {message => 'Hello World'});
 my @exp = ['@timestamp', '@version', 'host', 'message'];
 is-deeply($e2.keys.sort.Array, @exp, "fieldlist has message now");
 
+isa-ok($e2.to-json(), Str, 'event can transform to JSON');
+
 done-testing();
 # vim:filetype=perl6

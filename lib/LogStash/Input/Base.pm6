@@ -9,7 +9,6 @@ role LogStash::Input::Base {
     method run () { ... }
     method register () { ... }
     method decorate ($event) {
-        say $event.WHAT;
         $event{'type'} = $.type unless $event{'type'}:exists;
         push($event, %.add_field);
         $event{'tags'}.push(@.tags);

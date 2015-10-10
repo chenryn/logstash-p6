@@ -6,6 +6,7 @@ use Test;
 my $className = "LogStash::Input::Stdin";
 require ::($className);
 my $obj = ::($className).new(tags => ['tag1']);
+$obj.register();
 isa-ok($obj, $className);
 
 my $supply = Supply.new;

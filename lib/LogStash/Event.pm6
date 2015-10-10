@@ -1,5 +1,6 @@
 #!/usr/bin/env perl6-m
 use v6;
+use JSON::Fast;
 #|{use subscript to build a event like hash}
 class LogStash::Event does Iterable does Associative {
     has %!fields handles <AT-KEY EXISTS-KEY DELETE-KEY Str push kv keys values>;
@@ -18,5 +19,10 @@ class LogStash::Event does Iterable does Associative {
     }
 
     method iterator() { %!fields.keys.iterator }
+    method to-json() {
+        my %json = %!fields;
+        %json{'@timestamp'} = %!fields{'@timestamp'}.Str;
+        to-json(%json, pretty => False)
+    }
 
 }

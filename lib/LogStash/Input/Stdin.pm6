@@ -13,7 +13,6 @@ class LogStash::Input::Stdin does LogStash::Input::Base {
         for lines() {
             my $events = $.codec.decode($_);
             for @($events) -> $event {
-                say $event;
                 $.decorate($event);
                 $event{'host'} = $!hostname unless $event{'host'}:exists;
                 $supply.emit($event);
