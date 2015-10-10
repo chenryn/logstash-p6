@@ -2,7 +2,7 @@
 use v6;
 #|{use subscript to build a event like hash}
 class LogStash::Event does Iterable does Associative {
-    has %!fields handles <AT-KEY EXISTS-KEY DELETE-KEY Str push list kv keys values>;
+    has %!fields handles <AT-KEY EXISTS-KEY DELETE-KEY Str push kv keys values>;
 
     method new (%args={}) {
         return self.bless(*, :fields(%args));
